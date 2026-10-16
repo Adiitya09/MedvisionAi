@@ -1,52 +1,50 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-.eggs/
-dist/
-build/
-*.egg
-
-# Virtual environments
 .venv/
 venv/
 env/
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
+# Environment variables
+.env
+.env.*
 
-# OS
-.DS_Store
-Thumbs.db
+# Logs
+*.log
+logs/
 
-# Project data (large medical image datasets — not tracked in git)
+# Datasets and quarantine backups
 data/
+cleaned_data/
+quarantine/
+temp_Datasets_repo/
 
-# Generated artifacts
+# ML generated models, checkpoints, and evaluation outputs
 models/*
 !models/.gitkeep
-checkpoints/*
-!checkpoints/.gitkeep
-saved_models/*
-!saved_models/.gitkeep
-logs/*
-!logs/.gitkeep
-outputs/*
-!outputs/.gitkeep
+!models/skin_class_names.json
+!models/skin_model.keras
+!ML-Model/models/skin_class_names.json
+!ML-Model/models/skin_model.keras
+checkpoints/
+saved_models/
+*.keras
+!*.skin_model.keras
+!skin_model.keras
+!**/skin_model.keras
+*.h5
+*.tflite
+*.onnx
 
-# ML experiment tracking
+# MLflow and experiment tracking
 mlruns/
 .mlflow/
 
-# Jupyter
-.ipynb_checkpoints/
 
-# Environment secrets
-.env
-.env.*
+# Text files / notes
+skin Disease.txt
+skin disease.txt

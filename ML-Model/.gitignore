@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project data (large medical image datasets — not tracked in git)
+data/
+quarantine/
+temp_Datasets_repo/
+
+# Generated artifacts
+models/*
+!models/.gitkeep
+!models/skin_class_names.json
+!models/skin_model.keras
+checkpoints/*
+!checkpoints/.gitkeep
+saved_models/*
+!saved_models/.gitkeep
+logs/*
+!logs/.gitkeep
+
+*.keras
+!models/skin_model.keras
+*.h5
+*.tflite
+*.onnx
+
+
+# ML experiment tracking
+mlruns/
+.mlflow/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment secrets
+.env
+.env.*
