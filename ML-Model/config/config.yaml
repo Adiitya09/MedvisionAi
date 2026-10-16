@@ -1,9 +1,10 @@
-# Research-grade configuration for the medical image classification pipeline.
+# Research-grade configuration for MedVision AI — Skin Disease Classification System.
 # Paths are relative to the project root unless overridden with environment
 # variables prefixed by MEDICAL_AI_ (for example, MEDICAL_AI_DATASET_DIR).
+# Active application: skin disease classification only.
 
 project:
-  name: "ai-powered-multi-disease-detection"
+  name: "medvision-ai-skin-disease-classification"
   seed: 42
   output_dir: "outputs"
   models_dir: "models"
@@ -116,8 +117,9 @@ export:
 api:
   host: "0.0.0.0"
   port: 8000
-  model_path: "models/best_model.keras"
-  class_names_path: "models/class_names.json"
+  # Active application: skin model only
+  model_path: "models/skin_model.keras"
+  class_names_path: "models/skin_class_names.json"
 
 logging:
   level: "INFO"

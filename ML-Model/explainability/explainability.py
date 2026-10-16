@@ -1,7 +1,9 @@
-"""Generate Grad-CAM visual explanations for one trained MedvisionAI model.
+"""Generate Grad-CAM visual explanations for the trained skin disease model.
 
 Grad-CAM highlights image features that influenced a model output. It is not
 medical proof of causality and must not be interpreted as a diagnosis.
+
+This active application supports skin disease Grad-CAM only.
 """
 
 from __future__ import annotations
@@ -171,18 +173,18 @@ def _save_visuals(
 
 def generate_gradcam(
     image_path: str,
-    dataset_name: str,
+    dataset_name: str = "skin",
     model_path: Path | str | None = None,
     output_directory: Path | str | None = None,
     filename_prefix: str | None = None,
     target_class_index: int | None = None,
 ) -> dict[str, Any]:
-    """Generate a Grad-CAM explanation for the predicted class of one image.
+    """Generate a Grad-CAM explanation for the predicted skin disease class.
 
     Args:
-        image_path: Supported RGB medical image path.
-        dataset_name: One configured domain: skin, eye, or oral.
-        model_path: Optional explicit path to model file.
+        image_path: Supported RGB skin image path.
+        dataset_name: Must be ``"skin"`` (the only supported domain).
+        model_path: Optional explicit path to the skin model file.
         output_directory: Optional explicit directory to save visual outputs.
         filename_prefix: Optional custom prefix for saved image files.
         target_class_index: Optional target class index (defaults to predicted class).
@@ -263,27 +265,23 @@ def generate_gradcam(
 
 
 def _parse_arguments(arguments: Sequence[str] | None = None) -> argparse.Namespace:
-    """Parse an explicitly requested Grad-CAM image explanation."""
-    parser = argparse.ArgumentParser(description="Generate a model Grad-CAM explanation.")
-    parser.add_argument(
-        "--dataset",
-        choices=("skin", "eye", "oral"),
-        required=True,
-        help="Disease domain associated with the trained model.",
+    """Parse an explicitly requested skin Grad-CAM image explanation."""
+    parser = argparse.ArgumentParser(
+        description="Generate a Grad-CAM explanation for a skin disease image."
     )
-    parser.add_argument("--image", required=True, help="Path to a supported image file.")
-    parser.add_argument("--model-path", default=None, help="Optional model file path.")
+    parser.add_argument("--image", required=True, help="Path to a supported skin image file.")
+    parser.add_argument("--model-path", default=None, help="Optional skin model file path.")
     parser.add_argument("--output-dir", default=None, help="Optional output directory.")
     return parser.parse_args(arguments)
 
 
 def main(arguments: Sequence[str] | None = None) -> int:
-    """Run Grad-CAM generation and return a conventional process exit code."""
+    """Run skin Grad-CAM generation and return a conventional process exit code."""
     try:
         args = _parse_arguments(arguments)
         result = generate_gradcam(
             args.image,
-            args.dataset,
+            "skin",
             model_path=args.model_path,
             output_directory=args.output_dir,
         )

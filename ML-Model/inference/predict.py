@@ -1,7 +1,11 @@
-"""Run single-image inference with a trained MedvisionAI Keras model.
+"""Run single-image skin disease inference with the trained EfficientNetB0 model.
 
 Example:
-    python inference/predict.py --dataset skin --image path/to/image.jpg
+    python inference/predict.py --image path/to/skin_image.jpg
+
+The active application supports skin disease classification only.
+Supported classes: Acne, Actinic Keratosis, Basal Cell Carcinoma, Dermatofibroma,
+Melanocytic Nevus (Nevus), Melanoma, Seborrheic Keratosis, Squamous Cell Carcinoma.
 """
 
 from __future__ import annotations
@@ -155,16 +159,16 @@ def _save_prediction(result: dict[str, Any], dataset_name: str) -> Path:
     return output_path
 
 
-def predict_image(image_path: str, dataset_name: str) -> dict[str, Any]:
-    """Predict a disease class for one image using its configured trained model.
+def predict_image(image_path: str, dataset_name: str = "skin") -> dict[str, Any]:
+    """Predict a skin disease class for one image using the trained skin model.
 
     Args:
-        image_path: Path to a JPEG, PNG, WebP, or BMP medical image.
-        dataset_name: Domain selection: ``skin``, ``eye``, or ``oral``.
+        image_path: Path to a JPEG, PNG, WebP, or BMP skin image.
+        dataset_name: Must be ``"skin"`` (the only supported domain).
 
     Returns:
-        Dataset, model, top prediction, confidence, and the three most likely
-        classes with their probabilities.
+        Model name, top prediction, confidence, and the three most likely
+        skin disease classes with their probabilities.
     """
     if not isinstance(dataset_name, str) or not dataset_name.strip():
         raise ValueError("dataset_name must be a non-empty string.")
@@ -228,28 +232,24 @@ def _print_prediction(result: dict[str, Any]) -> None:
 
 
 def _parse_arguments(arguments: Sequence[str] | None = None) -> argparse.Namespace:
-    """Parse single-image inference options."""
-    parser = argparse.ArgumentParser(description="Predict a disease class from one image.")
-    parser.add_argument(
-        "--dataset",
-        choices=("skin", "eye", "oral"),
-        required=True,
-        help="Disease domain associated with the trained model.",
+    """Parse skin disease inference options."""
+    parser = argparse.ArgumentParser(
+        description="Predict a skin disease class from one image."
     )
     parser.add_argument(
         "--image",
         required=True,
-        help="Path to a supported image file.",
+        help="Path to a supported skin image file (JPEG, PNG, WebP, BMP).",
     )
     return parser.parse_args(arguments)
 
 
 def main(arguments: Sequence[str] | None = None) -> int:
-    """Run the command-line inference flow and return a process exit status."""
+    """Run the skin disease inference flow and return a process exit status."""
     setup_logging()
     try:
         args = _parse_arguments(arguments)
-        result = predict_image(args.image, args.dataset)
+        result = predict_image(args.image, "skin")
         _print_prediction(result)
     except KeyboardInterrupt:
         LOGGER.warning("Inference cancelled by user.")

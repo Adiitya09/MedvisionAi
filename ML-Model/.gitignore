@@ -33,6 +33,8 @@ temp_Datasets_repo/
 # Generated artifacts
 models/*
 !models/.gitkeep
+!models/skin_class_names.json
+!models/skin_model.keras
 checkpoints/*
 !checkpoints/.gitkeep
 saved_models/*
@@ -40,8 +42,8 @@ saved_models/*
 logs/*
 !logs/.gitkeep
 
-
 *.keras
+!models/skin_model.keras
 *.h5
 *.tflite
 *.onnx

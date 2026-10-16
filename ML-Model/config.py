@@ -1,9 +1,13 @@
-"""Central configuration for the multi-disease image-classification project.
+"""Central configuration for MedVision AI — Skin Disease Classification System.
 
 The module deliberately contains no TensorFlow imports, making it safe to use
 from training, evaluation, inference, and deployment code.  Set environment
 variables such as ``MEDICAL_AI_BACKBONE`` or ``MEDICAL_AI_DATASET_ROOT`` to
 override defaults without modifying source code.
+
+This active configuration supports the skin disease classification pipeline only.
+Historical multi-domain training scripts are preserved in experiments/ and scripts/
+but are not part of the active application workflow.
 """
 
 from __future__ import annotations
@@ -15,7 +19,7 @@ from typing import Literal
 
 
 BackboneName = Literal["mobilenetv2", "efficientnetb0", "resnet50"]
-DatasetName = Literal["skin", "eye", "oral"]
+DatasetName = Literal["skin"]  # Active application: skin disease classification only.
 
 
 def _environment_value(name: str, default: str) -> str:
@@ -63,9 +67,10 @@ class ProjectConfig:
     verbose: int = 1
 
     datasets: tuple[DatasetPaths, ...] = (
+        # Active application: skin disease classification only.
+        # Historical eye/oral model artifacts are preserved in E:\MP (Local)\ML-Model\models\
+        # but are not loaded by the active application.
         DatasetPaths("skin", "FYP skin disease Dataset", "skin_model.keras"),
-        DatasetPaths("eye", "Eye disease", "eye_model.keras"),
-        DatasetPaths("oral", "Oral Cancer", "oral_model.keras"),
     )
 
     def __post_init__(self) -> None:
@@ -115,13 +120,20 @@ class ProjectConfig:
         return self.project_root / "saved_models"
 
     def get_dataset(self, dataset_name: str) -> DatasetPaths:
-        """Return one configured domain, rejecting invalid names early."""
+        """Return the skin dataset configuration, rejecting non-skin domains.
+
+        The active application supports skin disease classification only.
+        """
         normalized_name = dataset_name.strip().lower()
         for dataset in self.datasets:
             if dataset.name == normalized_name:
                 return dataset
         supported = ", ".join(dataset.name for dataset in self.datasets)
-        raise ValueError(f"Unsupported dataset '{dataset_name}'. Choose one of: {supported}.")
+        raise ValueError(
+            f"Unsupported dataset '{dataset_name}'. "
+            f"The active application supports: {supported}. "
+            "Historical eye/oral scripts remain in experiments/ for reference."
+        )
 
     def split_dir(self, dataset_name: str, split_name: str) -> Path:
         """Return a dataset split directory using the supplied project layout."""

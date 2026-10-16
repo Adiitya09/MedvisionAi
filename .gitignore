@@ -26,9 +26,16 @@ temp_Datasets_repo/
 # ML generated models, checkpoints, and evaluation outputs
 models/*
 !models/.gitkeep
+!models/skin_class_names.json
+!models/skin_model.keras
+!ML-Model/models/skin_class_names.json
+!ML-Model/models/skin_model.keras
 checkpoints/
 saved_models/
 *.keras
+!*.skin_model.keras
+!skin_model.keras
+!**/skin_model.keras
 *.h5
 *.tflite
 *.onnx
@@ -36,3 +43,8 @@ saved_models/
 # MLflow and experiment tracking
 mlruns/
 .mlflow/
+
+
+# Text files / notes
+skin Disease.txt
+skin disease.txt
